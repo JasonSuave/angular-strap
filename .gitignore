@@ -6,3 +6,5 @@ test/coverage
 bower_components/
 node_modules/
 !.gitignore
+
+libpeerconnection.log
