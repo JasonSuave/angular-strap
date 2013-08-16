@@ -11,7 +11,7 @@ angular.module('$strap.directives')
       var options = angular.extend({show: true}, $strapConfig.modal, config),
           scope = options.scope ? options.scope : $rootScope.$new(),
           templateUrl = options.template;
-
+		  
       return $q.when($templateCache.get(templateUrl) || $http.get(templateUrl, {cache: true}).then(function(res) { return res.data; }))
       .then(function onSuccess(template) {
 
@@ -53,6 +53,9 @@ angular.module('$strap.directives')
         $modal.on('hidden', function(ev) {
           if(!options.persist) scope.$destroy();
         });
+        
+        // Added the classes passed via data-class to the 
+        $modal.addClass(options.classes);
 
         // Garbage collection
         scope.$on('$destroy', function() {
@@ -86,7 +89,8 @@ angular.module('$strap.directives')
         template: scope.$eval(iAttrs.bsModal),
         persist: true,
         show: false,
-        scope: scope
+        scope: scope,
+        classes: iElement.attr('data-class')
       };
 
       // $.fn.datepicker options

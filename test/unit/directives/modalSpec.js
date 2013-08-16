@@ -26,6 +26,7 @@ describe('modal', function () {
 
   var templates = {
     'default': '<a class="btn" bs-modal="\'partials/modal.html\'"></a>',
+    'with_class': '<a class="btn" bs-modal="\'partials/modal.html\'" data-class="custom-class"></a>',
     'extra': '<a class="btn" bs-modal="\'partials/modal.html\'" data-backdrop="0" data-keyboard="0" data-modal-class="modal-wide"></a>',
     'cached': '<script type="text/ng-template" id="cached-modal">' + 'Hello <span ng-bind-html-unsafe="content"></span>' + '</script><a class="btn" bs-modal="\'cached-modal\'" data-unique="1" data-title="aTitleBis" data-placement="left"></a>'
   };
@@ -49,6 +50,17 @@ describe('modal', function () {
     var $modal = $(elm.attr('data-target'));
     expect($modal.hasClass('modal')).toBe(true);
     expect($modal.html()).toBe(scope.modal);
+  });
+  
+  it('should build the modal with the extra classes defined in data-class', function () {
+	var elm = compileDirective('with_class');
+	expect(elm.attr('data-toggle')).toBe('modal');
+    expect(elm.attr('data-target')).toBeDefined();
+    var $modal = $(elm.attr('data-target'));
+    expect($modal.hasClass('modal')).toBe(true);
+    expect($modal.html()).toBe(scope.modal);
+    var extra_classes = elm.attr('data-class');
+	expect($modal.hasClass(extra_classes)).toBe(true);
   });
 
   it('should handle extra attributes', function () {
